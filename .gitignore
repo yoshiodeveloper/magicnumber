@@ -1,0 +1,15 @@
+.tox/
+.coverage
+.coverage.*
+*.cover
+*.egg-info
+.pytest_cache/
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.idea/
+.vscode/
+.eggs/
+dist/
