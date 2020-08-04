@@ -9,7 +9,8 @@ class TestUtils(unittest.TestCase):
         from magicnumber.utils import is_prime
 
         # Prime numbers known up to 10000.
-        prime_numbers = {  # Using "set" type for search optimizations.
+        prime_numbers = {
+            # Using "set" type for search optimizations.
             2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61,
             67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137,
             139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199,
@@ -125,6 +126,36 @@ class TestUtils(unittest.TestCase):
                 self.assertIn(n, prime_numbers)
             else:
                 self.assertNotIn(n, prime_numbers)
+
+    def test_get_perfect_sqrt(self):
+        """ Tests "get_perfect_sqrt" function. """
+        import math
+        from magicnumber.utils import get_perfect_sqrt
+
+        for n in range(1000):
+            # Get the square root of "n".
+            sqrt_of_n = math.sqrt(n)
+
+            # Get the "possible" perfect square root of "n".
+            perf_sqrt_of_n = get_perfect_sqrt(n)
+
+            if perf_sqrt_of_n is not None:
+                # "get_perfect_sqrt" will return an integer if the perfect sqrt
+                # was found.
+                self.assertIsInstance(perf_sqrt_of_n, int)
+
+                # Also the square of this integer must be equal to "n".
+                self.assertEqual(n, int(perf_sqrt_of_n) ** 2)
+            else:
+                # "get_perfect_sqrt" will return None if the perfect sqrt of
+                # "n" was not found.
+                self.assertIsNone(perf_sqrt_of_n)
+
+                # Also the square of the integer of the real sqrt will not be
+                # equal to "n". Example:
+                #     n == sqrt_of_n ** 2       # True
+                #     n == int(sqrt_of_n) ** 2  # False
+                self.assertNotEqual(n, int(sqrt_of_n) ** 2)
 
 
 if __name__ == '__main__':
