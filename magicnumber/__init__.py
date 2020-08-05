@@ -5,70 +5,73 @@ import math
 from .utils import is_prime
 
 
-def count_magic_numbers(entries: list) -> int:
-    """ Counts how many magic numbers exists in "entries" list.
+class MagicNumber:
+    """ Handles magic numbers operations. """
 
-    The "args" parameter must be an iterator where each item is a list or tuple
-    with two numbers (A and B). Example of "entries":
-        [[1, 10], [15, 20], [65, 78], ...]
+    @staticmethod
+    def count(entries: list) -> int:
+        """ Counts how many magic numbers exists in "entries" list.
 
-    Args:
-        entries (list): A list with ranges A/B of integers.
+        The "args" parameter must be an iterator where each item is a list or
+        tuple with two numbers (A and B). Example of "entries":
+            [[1, 10], [15, 20], [65, 78], ...]
 
-    Returns:
-        int: Amount of magic numbers found. A None can be returned if "entries"
-             does not have elements.
-    """
-    primes_counter = 0
+        Args:
+            entries (list): A list with ranges A/B of integers.
 
-    if entries:
-        min_el = entries[0][0]
-        max_el = entries[0][1]
-    else:
-        return None
+        Returns:
+            int: Amount of magic numbers found. A None can be returned if
+                 "entries" does not have elements.
+        """
+        # First we need to find the max and min values of the A/B entries.
+        if entries:
+            min_el = entries[0][0]
+            max_el = entries[0][1]
+        else:
+            return None
 
-    # For the algorithm explanation, consider the following value for
-    # "entries" with 6 elements:
-    #     entries = [[2, 5], [4, 7], [2, 9], [15, 15], [10, 16]]
+        for a, b in entries:
+            # "O(entries)" time complexity operation.
+            min_el = min(min_el, a)
+            max_el = max(max_el, b)
 
-    # First we try to find the max and min values of the A/B entries.
-    # It will be a "O(entries)" time complexity operation.
-    for a, b in entries:
-        min_el = min(min_el, a)
-        max_el = max(max_el, b)
+        # Now we get the min and max possible sqrt from min_el and max_el.
+        # For example: if the min and max values for ranges inside the
+        # "entries" numbers are 2 and 100, then:
+        #     - Lowest possible perfect sqrt:
+        #           sqrt(2) = 1.414213 = 1 (truncated)
+        #     - Highest possible perfect sqrt:
+        #           sqrt(100) = 10
+        # Notice that we don't need to verify numbers greater than 10, because
+        # the next number after 10 is 11 and 11*11 is 121. This is above our
+        # max value (100), so 10 is the highest possible perfect square root.
+        # The same applies for the min value.
+        max_perf_sqrt = int(math.sqrt(max_el))
+        min_perf_sqrt = int(math.sqrt(min_el))
 
-    # Here the min value is 2 and the max value is 16.
+        # We need to create an array with the numbers from min_perf_sqrt up to
+        # max_perf_sqrt, check the primality and add it square in the array.
+        # For example: (1~10 from our last example)
+        #     1: not prime
+        #     2: is prime -> 2*2 -> magic_numbers.append(4)
+        #     3: is prime -> 3*3 -> magic_numbers.append(9)
+        #     4: not prime
+        #     5: is prime -> 5*5 -> magic_numbers.append(25)
+        #     6: not prime
+        #     7: is prime -> 5*5 -> magic_numbers.append(49)
+        #     8: not prime
+        #     9: not prime
+        #     10: not prime
+        magic_numbers = []
+        for perf_sqrt in range(min_perf_sqrt, max_perf_sqrt + 1):
+            if is_prime(perf_sqrt):
+                magic_numbers.append(perf_sqrt ** 2)
 
-    # The math "max_el - min_el + 1" will give us the size we need to allocate
-    # to store each "prime square root" calculated:
-    #     (16 - 2) + 1 = 15
-    # * Exists 15 slots from 2 to 16.
-    # * We also consider a [0, 1] as two elements 0 and 1. That's why we need
-    #   the "+1"
-
-    sqrts_array_len = max_el - min_el + 1
-    idx_offset = min_el
-
-    # This array creation is "O(sqrts_array_len)" operation.
-    perf_sqrts = [0] * sqrts_array_len
-
-    # Now we have this array with 15 elements:
-    #     perf_sqrts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-    # If the max value of the A/B is 15, the lowest square root possible
-    # is the sqrt of 15 (or 3.8729). We round that number down to 3.
-
-    max_perf_sqrt = int(math.sqrt(max_el))
-    n = max_perf_sqrt ** 2
-    while n >= min_el:   # O(sqrt(max_el))
-        if is_prime(max_perf_sqrt):  # O(sqrt(max_perf_sqrt/2))
-            perf_sqrts[n - idx_offset] = 1
-        max_perf_sqrt -= 1
-        if max_perf_sqrt < 0:
-            break
-        n = max_perf_sqrt ** 2
-
-    for a, b in entries:  # O(n)
-        # The "sum" function is a O(b - a) operation.
-        primes_counter += sum(perf_sqrts[a - idx_offset:b - idx_offset + 1])
-    return primes_counter
+        # The magic_numbers array has the following values:
+        #    magic_numbers = [4, 9, 25, 49]
+        # Now we just need to check which numbers in magic_numbers are between
+        # the A/B ranges and count the occurrences.
+        primes_counter = 0
+        for magic_n in magic_numbers:
+            primes_counter += sum(1 for a, b in entries if a <= magic_n <= b)
+        return primes_counter
