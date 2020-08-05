@@ -12,12 +12,14 @@ class MagicNumber:
     def count(entries: list) -> int:
         """ Counts how many magic numbers exists in "entries" list.
 
-        The "args" parameter must be an iterator where each item is a list or
-        tuple with two numbers (A and B). Example of "entries":
+        The "entries" parameter must be an iterator where each item is a list
+        or tuple with two numbers (A and B).
+
+        Example of "entries":
             [[1, 10], [15, 20], [65, 78], ...]
 
         Args:
-            entries (list): A list with ranges A/B of integers.
+            entries (list): A list with ranges of integers.
 
         Returns:
             int: Amount of magic numbers found. A None can be returned if
@@ -49,9 +51,10 @@ class MagicNumber:
         max_perf_sqrt = int(math.sqrt(max_el))
         min_perf_sqrt = int(math.sqrt(min_el))
 
-        # We need to create an array with the numbers from min_perf_sqrt up to
+        # We need to create an array with the numbers from min_perf_sqrt to
         # max_perf_sqrt, check the primality and add it square in the array.
-        # For example: (1~10 from our last example)
+        # For example:
+        #     ("min_perf_sqrt 1" to "max_perf_sqrt 10" from our last example)
         #     1: not prime
         #     2: is prime -> 2*2 -> magic_numbers.append(4)
         #     3: is prime -> 3*3 -> magic_numbers.append(9)
@@ -64,6 +67,8 @@ class MagicNumber:
         #     10: not prime
         magic_numbers = []
         for perf_sqrt in range(min_perf_sqrt, max_perf_sqrt + 1):
+            # Note: This "for" can be optimized using list comprehentions, but
+            # it would make reading complicated.
             if is_prime(perf_sqrt):
                 magic_numbers.append(perf_sqrt ** 2)
 
