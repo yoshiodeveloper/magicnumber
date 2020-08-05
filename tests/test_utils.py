@@ -10,7 +10,7 @@ class TestUtils(unittest.TestCase):
 
         # Prime numbers known up to 10000.
         prime_numbers = {
-            # Using "set" type for search optimizations.
+            # Using "set" for search optimizations.
             2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61,
             67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137,
             139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199,
@@ -130,26 +130,24 @@ class TestUtils(unittest.TestCase):
     def test_get_perfect_sqrt(self):
         """ Tests "get_perfect_sqrt" function. """
         import math
-        from magicnumber.utils import get_perfect_sqrt
+        from magicnumber.utils import calc_perfect_sqrt
 
         for n in range(1000):
-            # Get the square root of "n".
+            # Get the square root of "n". It is a float.
             sqrt_of_n = math.sqrt(n)
 
-            # Get the "possible" perfect square root of "n".
-            perf_sqrt_of_n = get_perfect_sqrt(n)
+            # Get the perfect square root of "n".
+            perf_sqrt_of_n = calc_perfect_sqrt(n)
 
-            if perf_sqrt_of_n is not None:
-                # "get_perfect_sqrt" will return an integer if the perfect sqrt
-                # was found.
-                self.assertIsInstance(perf_sqrt_of_n, int)
-
-                # Also the square of this integer must be equal to "n".
+            if perf_sqrt_of_n > -1:
+                # "get_perfect_sqrt" will return an positive integer if the
+                # perfect sqrt was found. Also the square of this integer must
+                # be equal to "n".
                 self.assertEqual(n, int(perf_sqrt_of_n) ** 2)
             else:
-                # "get_perfect_sqrt" will return None if the perfect sqrt of
+                # "get_perfect_sqrt" will return -1 if the perfect sqrt of
                 # "n" was not found.
-                self.assertIsNone(perf_sqrt_of_n)
+                self.assertEqual(perf_sqrt_of_n, -1)
 
                 # Also the square of the integer of the real sqrt will not be
                 # equal to "n". Example:
