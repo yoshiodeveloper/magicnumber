@@ -59,10 +59,8 @@ def test_small_dataset():
     with open(f'{DATASET_PATH}/dataset_small.json', 'r') as f:
         content = f.read()
 
-    small_dataset = json.loads(content)
-    magic_numbers = small_dataset['magic_numbers']
-    dataset = small_dataset['dataset']
-    assert tested_method(dataset) == magic_numbers
+    dataset = json.loads(content)
+    assert tested_method(dataset) == 252
 
 
 def test_huge_dataset():
@@ -77,15 +75,11 @@ def test_huge_dataset():
 
     tested_method = MagicNumber.count
 
-    # This dataset file is not the same used on count_from_file. This one has
-    # the number of magic numbers. The count_from_file loads only an array.
     with open(f'{DATASET_PATH}/dataset_huge.json', 'r') as f:
         content = f.read()
 
-    huge_dataset = json.loads(content)
-    magic_numbers = huge_dataset['magic_numbers']
-    dataset = huge_dataset['dataset']
-    assert tested_method(dataset) == magic_numbers
+    dataset = json.loads(content)
+    assert tested_method(dataset) == 1545242
 
 
 def test_count_from_json():
@@ -121,5 +115,5 @@ def test_count_from_file():
         tested_method(filename)
 
     # Testing a good dataset file.
-    filename = f'{DATASET_PATH}/dataset_good.json'
+    filename = f'{DATASET_PATH}/dataset_small.json'
     assert tested_method(filename) == 252

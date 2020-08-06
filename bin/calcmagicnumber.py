@@ -9,7 +9,7 @@ Usage:
 
     $ python3 calcmagicnumber.py -s "[[1,3], [50, 10982]]"
     or
-    $ python3 calcmagicnumber.py -f /home/user/dataset.json
+    $ python3 calcmagicnumber.py -f dataset.json
     or
     $ cat dataset.json | python3 calcmagicnumber.py
 """
