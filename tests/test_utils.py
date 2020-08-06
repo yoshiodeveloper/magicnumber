@@ -4,6 +4,7 @@ import pathlib
 
 
 TESTS_PATH = pathlib.Path(__file__).parent.absolute()
+DATASET_PATH = f'{TESTS_PATH}/../datasets'
 
 
 def test_is_prime():
@@ -12,7 +13,7 @@ def test_is_prime():
     It loads a dataset with prime numbers known up to 10000.
     """
     from magicnumber.utils import is_prime
-    with open(f'{TESTS_PATH}/primes_dataset.json', 'r') as f:
+    with open(f'{DATASET_PATH}/dataset_primes.json', 'r') as f:
         content = f.read()
 
     prime_numbers = json.loads(content)

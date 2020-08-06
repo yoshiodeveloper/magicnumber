@@ -1,45 +1,104 @@
 # -*- encoding: utf-8
 
+import json
 import math
 
 from .utils import is_prime
+
+from magicnumber.errors import InvalidDatasetError
 
 
 class MagicNumber:
     """ Handles magic numbers operations. """
 
     @staticmethod
-    def count(entries: list) -> int:
-        """ Counts how many magic numbers exists in "entries" list.
+    def count_from_json(json_content: str) -> int:
+        """ Counts how many magic numbers exists in JSON.
 
-        The "entries" parameter must be an iterator where each item is a list
-        or tuple with two numbers (A and B).
-
-        Example of "entries":
+        The JSON must have the following format:
             [[1, 10], [15, 20], [65, 78], ...]
 
         Args:
-            entries (list): A list with ranges of integers.
+            json_content (str): The JSON string.
 
         Returns:
             int: Amount of magic numbers found. A None can be returned if
-                 "entries" does not have elements.
+                 "dataset" does not have elements.
         """
-        # First we need to find the max and min values of the A/B entries.
-        if entries:
-            min_el = entries[0][0]
-            max_el = entries[0][1]
-        else:
+        try:
+            dataset = json.loads(json_content)
+        except (ValueError, TypeError):
+            raise InvalidDatasetError('The content is not a valid JSON'
+                                      ' for a dataset.')
+        return MagicNumber.count(dataset)
+
+    @staticmethod
+    def count_from_file(filename: str) -> int:
+        """ Counts how many magic numbers exists in dataset file.
+
+        The dataset must be JSON with the following format:
+            [[1, 10], [15, 20], [65, 78], ...]
+
+        Args:
+            filename (str): The filename.
+
+        Returns:
+            int: Amount of magic numbers found. A None can be returned if
+                 "dataset" does not have elements.
+        """
+        with open(filename, 'r') as f:
+            content = f.read()
+        return MagicNumber.count_from_json(content)
+
+    @staticmethod
+    def count(dataset: list) -> int:
+        """ Counts how many magic numbers exists in "dataset" list.
+
+        The "dataset" parameter must be an iterator where each item is a list
+        or tuple with two numbers (A and B).
+
+        Example of "dataset":
+            [[1, 10], [15, 20], [65, 78], ...]
+
+        Args:
+            dataset (list): A list with ranges of integers.
+
+        Returns:
+            int: Amount of magic numbers found. A None can be returned if
+                 "dataset" does not have elements.
+        """
+
+        if dataset is None:
             return None
 
-        for a, b in entries:
-            # "O(entries)" time complexity operation.
+        if not isinstance(dataset, (list, tuple)):
+            raise InvalidDatasetError('The dataset content is not an array.')
+
+        if not dataset:
+            # Empty dataset.
+            return None
+
+        # First we need to find the max and min values of the A/B dataset.
+
+        first_item = dataset[0]
+        if not isinstance(first_item, (list, tuple)):
+            raise InvalidDatasetError('The dataset content is not an array.')
+
+        try:
+            min_el = first_item[0]
+            max_el = first_item[1]
+        except IndexError:
+            raise InvalidDatasetError('The dataset does not have a valid'
+                                      ' dimension.')
+
+        for a, b in dataset:
+            # "O(dataset)" time complexity operation.
             min_el = min(min_el, a)
             max_el = max(max_el, b)
 
         # Now we get the min and max possible sqrt from min_el and max_el.
         # For example: if the min and max values for ranges inside the
-        # "entries" numbers are 2 and 100, then:
+        # "dataset" numbers are 2 and 100, then:
         #     - Lowest possible perfect sqrt:
         #           sqrt(2) = 1.414213 = 1 (truncated)
         #     - Highest possible perfect sqrt:
@@ -78,5 +137,5 @@ class MagicNumber:
         # the A/B ranges and count the occurrences.
         primes_counter = 0
         for magic_n in magic_numbers:
-            primes_counter += sum(1 for a, b in entries if a <= magic_n <= b)
+            primes_counter += sum(1 for a, b in dataset if a <= magic_n <= b)
         return primes_counter

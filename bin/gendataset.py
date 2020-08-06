@@ -1,3 +1,4 @@
+#!/bin/python3
 # -*- encoding: utf-8 -*-
 
 """ A utility script that generates datasets for performance tests.
@@ -13,6 +14,7 @@ import json
 
 from random import randint
 from magicnumber.utils import is_prime, calc_perfect_sqrt
+
 
 parser = argparse.ArgumentParser(
     description='Prints out a JSON dataset for performance tests.')
