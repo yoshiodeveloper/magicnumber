@@ -1,7 +1,5 @@
 # magicnumber
 
-A program to calculate "Magic Numbers" inside a range of integers. A magic number is a number that has a perfect square root. This square root is also a prime number.
-
 The main dataset used on the tests (datasets/datasets_huge.json) has 100K entries with A/B pairs ranging from 0 to 100K as well. The program handles this dataset in less than one second (0.3s on Intel i7). This also includes the time spent to load and parse the dataset file.
 
 For this project we are using:
