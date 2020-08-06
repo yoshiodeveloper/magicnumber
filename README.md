@@ -1,10 +1,8 @@
 # magicnumber
 
-A program to calculate "Magic Numbers" inside a range of integers.
+A program to calculate "Magic Numbers" inside a range of integers. A magic number is a number that has a perfect square root. This square root is also a prime number.
 
-> A magic number is a number that has a perfect square root. This square root is also a prime number.
-
-The main dataset used on test (datasets/datasets_huge.json) has 100K entries with A/B pairs ranging from 0 to 100K as well. The program is able to handle this dataset in less than one second (0.3s on Intel i7). This also include the time to load and parse the dataset.
+The main dataset used on the tests (datasets/datasets_huge.json) has 100K entries with A/B pairs ranging from 0 to 100K as well. The program handles this dataset in less than one second (0.3s on Intel i7). This also includes the time spent to load and parse the dataset file.
 
 For this project we are using:
 
@@ -27,13 +25,13 @@ git clone https://github.com/yoshiodeveloper/magicnumber.git
 
 ## Running with Docker
 
-Build the image.
+This is the easiest way to see the program running. First build the image.
 
 ```bash
 docker build -t yoshiodeveloper/magicnumber .
 ```
 
-Now you can run the *CLI* of magicnumber module (bin/calcmagicnumber.py) passing the array as double quoted string. This array must be a valid JSON.
+Now you can run the *CLI* of magic number module (bin/calcmagicnumber.py) passing the array as double quoted string. This array must be a valid JSON.
 
 ```bash
 docker run -t --rm yoshiodeveloper/magicnumber -s "[[1,3], [50, 10982]]"
@@ -45,7 +43,7 @@ You can pass a filename with a dataset to be loaded. The dataset format must be 
 docker run -t --rm yoshiodeveloper/magicnumber -f dataset.json
 ```
 
-You can also pass the dataset using *pipes*. Use the parameter "-i" on docker.
+You can also pass the dataset content using *pipes*. Use the parameter "-i" on docker.
 
 ```bash
 cat dataset.json | docker run -i --rm yoshiodeveloper/magicnumber
@@ -59,10 +57,10 @@ docker run -it --rm --entrypoint sh yoshiodeveloper/magicnumber
 
 The project will be on "/magicnumber". You don't need to set PYTHONPATH or use the virtualenv there.
 
-Some examples inside the docker container:
+Some examples running inside the docker container:
+
 ```bash
 pytest  # to run the tests
-
 python bin/calcmagicnumber.py -s "[[1,3], [50, 10982]]"
 python bin/calcmagicnumber.py -f datasets/dataset_huge.json
 ```
