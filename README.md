@@ -94,9 +94,9 @@ Set the PYTHONPATH.
 export PYTHONPATH=$PYTHONPATH:/home/user/magicnumber
 ```
 
-> Note: The PYTHONPATH must be set with the project directory. Do not use "/home/user/magicnumber/magicnumber" as this one is the source.
+**Note**: The PYTHONPATH must be set with the project directory. Do not use "/home/user/magicnumber/magicnumber" as this one is the source.
 
-Now you enviroment is ready. You can run the /bin scripts or the tests (see above).
+Now your enviroment is ready. You can run the "/bin" scripts or the tests (see above).
 
 If you want to leave the virtualenv run "deactivate".
 
@@ -105,7 +105,7 @@ deactivate
 ```
 
 
-# Running tests
+## Running tests
 
 If you want to run the tests you can use tox or pytest, both are already installed as dependency inside the virtualenv.
 
