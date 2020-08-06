@@ -11,7 +11,7 @@ For this project we are using:
 - Coverage: Used to gauge the effectiveness of tests.
 - Flake8: For style guide enforcement and lint checks.
 - Tox: A virtualenv management and test command line tool.
-- Docker: Container software to isolate the aplication.
+- Docker: Container software to isolate the application.
 
 
 ## Source code
