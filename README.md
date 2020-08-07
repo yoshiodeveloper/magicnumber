@@ -94,7 +94,7 @@ export PYTHONPATH=$PYTHONPATH:/home/user/magicnumber
 
 **Note**: The PYTHONPATH must be set with the project directory. Do not use "/home/user/magicnumber/magicnumber" as this one is the source.
 
-Now your enviroment is ready. You can run the "/bin" scripts or the tests (see above).
+Now your environment is ready. You can run the "/bin" scripts or the tests (see above).
 
 If you want to leave the virtualenv run "deactivate".
 
